@@ -6,34 +6,36 @@ const AddBook = () => {
     type_book: "",
     name_book: "",
     author: "",
-    image: "",
     publisher_url: "",
     publisher: "",
-    userPost: "6603c527698fea78e3df65b4",
+    image: null,
   });
 
-  const { type_book, name_book, author, image, publisher_url, publisher } =
+  const { type_book, name_book, author, publisher_url, publisher, image } =
     formData;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onImageChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] });
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const form = new FormData();
+    form.append("type_book", type_book);
+    form.append("name_book", name_book);
+    form.append("author", author);
+    form.append("publisher_url", publisher_url);
+    form.append("publisher", publisher);
+    form.append("image", image);
+
     try {
-      console.log(formData);
-      const res = await axios.post("http://localhost:3000/book/create", formData);
+      const res = await axios.post("http://localhost:3000/book", form);
       console.log(res.data);
-      setFormData({
-        type_book: "",
-        name_book: "",
-        author: "",
-        image: "",
-        publisher_url: "",
-        publisher: "",
-        userPost: "",
-      });
     } catch (err) {
       console.error(err.response.data);
     }
@@ -55,21 +57,15 @@ const AddBook = () => {
           >
             หมวดหมู่หนังสือ
           </label>
-          <select
+          <input
+            type="text"
             id="type_book"
             name="type_book"
             value={type_book}
             onChange={onChange}
             placeholder="ระบุหมวดหมู่"
             className="block w-full p-4 text-Dark border border-Gray rounded-lg bg-Gray text-base focus:ring-Blue focus:border-Blue dark:bg-Dark dark:border-Gray dark:placeholder-Gray dark:text-Dark dark:focus:ring-Blue dark:focus:border-Blue"
-          >
-            <option value="">กรุณาเลือกหมวดหมู่</option>
-            <option value="จิตวิทยา">จิตวิทยา</option>
-            <option value="วรรณกรรม">วรรณกรรม</option>
-            <option value="คอมพิวเตอร์">คอมพิวเตอร์</option>
-            <option value="การ์ตูน">การ์ตูน</option>
-            <option value="ธุรกิจ">ธุรกิจ</option>
-          </select>
+          />
         </div>
         <div className="mb-6">
           <label
@@ -110,7 +106,7 @@ const AddBook = () => {
             htmlFor="publisher_url"
             className="block mb-2 text-sm font-medium text-Dark dark:text-White"
           >
-            เว็ปไซด์สำหรับดาวน์โหลด (Google drive)
+            เว็ปไซด์ผู้แต่งหนังสือ
           </label>
           <input
             type="text"
@@ -118,7 +114,7 @@ const AddBook = () => {
             name="publisher_url"
             value={publisher_url}
             onChange={onChange}
-            placeholder="โปรดระบุ url download"
+            placeholder="ระบุเว็ปไซด์ผู้แต่ง"
             className="block w-full p-4 text-Dark border border-Gray rounded-lg bg-Gray text-base focus:ring-Blue focus:border-Blue dark:bg-Dark dark:border-Gray dark:placeholder-Gray dark:text-Dark dark:focus:ring-Blue dark:focus:border-Blue"
           />
         </div>
@@ -142,22 +138,19 @@ const AddBook = () => {
 
         <div className="mb-6">
           <label
-            htmlFor="publisher"
-            className="block mb-2 text-sm font-medium text-Dark dark:text-White"
+            htmlFor="image"
+            className="block text-sm font-medium text-Dark"
           >
-            รูปหนังสือ
+            รูปภาพหนังสือ
           </label>
           <input
-            type="text"
+            type="file"
             id="image"
             name="image"
-            value={image}
-            onChange={onChange}
-            placeholder="โปรดระบุ url image"
-            className="block w-full p-4 text-Dark border border-Gray rounded-lg bg-Gray text-base focus:ring-Blue focus:border-Blue dark:bg-Dark dark:border-Gray dark:placeholder-Gray dark:text-Dark dark:focus:ring-Blue dark:focus:border-Blue"
+            onChange={onImageChange}
+            className="block w-full p-3 border border-Gray rounded-lg focus:outline-none focus:border-Blue"
           />
         </div>
-
         <button
           type="submit"
           className="w-full py-3 text-White bg-Blue hover:bg-Blue rounded-lg font-semibold transition duration-300"
