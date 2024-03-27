@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 const BookSchema = new Schema({
-  typeBook: {
+  type_book: {
     type: String,
     required: true,
   },
-  nameBook: {
+  name_book: {
     type: String,
     required: true,
   },

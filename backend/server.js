@@ -4,6 +4,7 @@ const router = express.Router();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const userRouter = require("./Routers/user.router")
+const bookRouter = require("./Routers/book.router")
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ const MONGODB_URL = process.env.MONGODB_URL;
 mongoose.connect(MONGODB_URL);
 
 app.use("/users", userRouter);
+app.use("/book", bookRouter);
 
 app.get("/", (req, res) => {
   res.send("<h1> Welcome to Ebook Project</h1>");
