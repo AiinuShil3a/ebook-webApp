@@ -19,7 +19,7 @@ const Books = () => {
       .catch((error) => {
         console.error("Error fetching books:", error);
       });
-  }, []);
+  }, [books]);
 
   const handleFilterChange = (type) => {
     setFilterType(type);
