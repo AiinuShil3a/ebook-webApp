@@ -3,7 +3,7 @@ import { FaAngleRight } from 'react-icons/fa';
 import axios from "axios";
 import BookCard from "../component/BookCard";
 
-const Homepage = () => {
+const Books = () => {
   const [books, setBooks] = useState([]);
   const [filterType, setFilterType] = useState("");
 
@@ -26,6 +26,7 @@ const Homepage = () => {
     ? books.filter((book) => book.type_book === filterType)
     : books;
   const limitedBooks = filteredBooks.slice(0, 5);
+
   return (
     <div>
       <img
@@ -51,18 +52,10 @@ const Homepage = () => {
           {limitedBooks.map((book, index) => (
             <BookCard key={index} book={book} />
           ))}
-          {limitedBooks.length < filteredBooks.length && (
-            <div className="flex justify-center mt-4">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                <h1 className="text-[5rem]"> > </h1>
-                ดูรายการหนังสือทั้งหมด
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Homepage;
+export default Books;
