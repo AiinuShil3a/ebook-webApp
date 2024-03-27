@@ -9,6 +9,7 @@ const AddBook = () => {
     image: "",
     publisher_url: "",
     publisher: "",
+    userPost: "6603c527698fea78e3df65b4",
   });
 
   const { type_book, name_book, author, image, publisher_url, publisher } =
@@ -21,7 +22,8 @@ const AddBook = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3000/book", formData);
+      console.log(formData);
+      const res = await axios.post("http://localhost:3000/book/create", formData);
       console.log(res.data);
       setFormData({
         type_book: "",
@@ -53,15 +55,21 @@ const AddBook = () => {
           >
             หมวดหมู่หนังสือ
           </label>
-          <input
-            type="text"
+          <select
             id="type_book"
             name="type_book"
             value={type_book}
             onChange={onChange}
             placeholder="ระบุหมวดหมู่"
             className="block w-full p-4 text-Dark border border-Gray rounded-lg bg-Gray text-base focus:ring-Blue focus:border-Blue dark:bg-Dark dark:border-Gray dark:placeholder-Gray dark:text-Dark dark:focus:ring-Blue dark:focus:border-Blue"
-          />
+          >
+            <option value="">กรุณาเลือกหมวดหมู่</option>
+            <option value="จิตวิทยา">จิตวิทยา</option>
+            <option value="วรรณกรรม">วรรณกรรม</option>
+            <option value="คอมพิวเตอร์">คอมพิวเตอร์</option>
+            <option value="การ์ตูน">การ์ตูน</option>
+            <option value="ธุรกิจ">ธุรกิจ</option>
+          </select>
         </div>
         <div className="mb-6">
           <label
@@ -102,7 +110,7 @@ const AddBook = () => {
             htmlFor="publisher_url"
             className="block mb-2 text-sm font-medium text-Dark dark:text-White"
           >
-            เว็ปไซด์ผู้แต่งหนังสือ
+            เว็ปไซด์สำหรับดาวน์โหลด (Google drive)
           </label>
           <input
             type="text"
@@ -110,7 +118,7 @@ const AddBook = () => {
             name="publisher_url"
             value={publisher_url}
             onChange={onChange}
-            placeholder="ระบุเว็ปไซด์ผู้แต่ง"
+            placeholder="โปรดระบุ url download"
             className="block w-full p-4 text-Dark border border-Gray rounded-lg bg-Gray text-base focus:ring-Blue focus:border-Blue dark:bg-Dark dark:border-Gray dark:placeholder-Gray dark:text-Dark dark:focus:ring-Blue dark:focus:border-Blue"
           />
         </div>
@@ -134,18 +142,22 @@ const AddBook = () => {
 
         <div className="mb-6">
           <label
-            htmlFor="image"
-            className="block text-sm font-medium text-Dark"
+            htmlFor="publisher"
+            className="block mb-2 text-sm font-medium text-Dark dark:text-White"
           >
-            รูปภาพหนังสือ
+            รูปหนังสือ
           </label>
           <input
-            type="file"
+            type="text"
             id="image"
             name="image"
-            className="block w-full p-3 border border-Gray rounded-lg focus:outline-none focus:border-Blue"
+            value={image}
+            onChange={onChange}
+            placeholder="โปรดระบุ url image"
+            className="block w-full p-4 text-Dark border border-Gray rounded-lg bg-Gray text-base focus:ring-Blue focus:border-Blue dark:bg-Dark dark:border-Gray dark:placeholder-Gray dark:text-Dark dark:focus:ring-Blue dark:focus:border-Blue"
           />
         </div>
+
         <button
           type="submit"
           className="w-full py-3 text-White bg-Blue hover:bg-Blue rounded-lg font-semibold transition duration-300"
