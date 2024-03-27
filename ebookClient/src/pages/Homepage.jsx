@@ -21,6 +21,9 @@ const Homepage = () => {
   const handleFilterChange = (type) => {
     setFilterType(type);
   };
+  const handleToAllbooks = (type) => {
+    window.location.href = "/books";
+  };
 
   const filteredBooks = filterType
     ? books.filter((book) => book.type_book === filterType)
@@ -53,7 +56,7 @@ const Homepage = () => {
           ))}
           {limitedBooks.length < filteredBooks.length && (
             <div className="flex justify-center mt-4">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+              <button onClick={handleToAllbooks} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
                 <h1 className="text-[5rem]"> > </h1>
                 ดูรายการหนังสือทั้งหมด
               </button>

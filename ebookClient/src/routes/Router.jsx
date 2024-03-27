@@ -3,6 +3,8 @@ import Main from "../layout/Main";
 import Home from "../pages/Homepage";
 import GetStarted from "../pages/GetStarted";
 import Books from "../pages/Books";
+import BooksDetail from "../pages/Detail";
+
 
 const router = createBrowserRouter([
   {
@@ -24,6 +26,10 @@ const router = createBrowserRouter([
       {
         path:"/books",
         element:<Books />,
+      },
+      {
+        path:"/books/:id",
+        element:<BooksDetail />,
       },
     ],
   },
