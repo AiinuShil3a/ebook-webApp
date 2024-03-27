@@ -8,6 +8,10 @@ const Register = async (req, res) => {
   const salt = bcrypt.genSaltSync(10);
   const { username, password } = req.body;
   try {
+    const existingUser = await UserModel.findOne({username})
+    if (existingUser) {
+      return res.status(400).json({error: "Username already use"})
+    }
     const user = await UserModel.create({
       username,
       password: bcrypt.hashSync(password, salt),
@@ -43,8 +47,10 @@ const Logout = (req, res) => {
   res.cookie("token", "").json("ok");
 };
 
+
 module.exports = {
   Register,
   Login,
   Logout,
+  
 };

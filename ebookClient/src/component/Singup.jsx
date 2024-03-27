@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../context/UserContext";
 
-const SingIn = ({setHaveAccount}) => {
+
+const SignUp = ({setHaveAccount}) => {
+const {register} = useContext(AuthContext);
+const [username , setUsername] = useState('');
+const [password , setPassword] = useState('');
+const [confirmPassword , setConfirmPassword] = useState('')
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  await register(username,password)
+}
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">สมัครสมาชิก</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
             htmlFor="username"
@@ -14,8 +24,10 @@ const SingIn = ({setHaveAccount}) => {
           </label>
           <input
             type="text"
+            value={username}
             id="username"
             name="username"
+            onChange={(e) => setUsername(e.target.value)}
             className="border border-gray-300 rounded-md px-3 py-2 w-full"
           />
         </div>
@@ -29,6 +41,8 @@ const SingIn = ({setHaveAccount}) => {
           <input
             type="password"
             id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             name="password"
             className="border border-gray-300 rounded-md px-3 py-2 w-full"
           />
@@ -41,9 +55,11 @@ const SingIn = ({setHaveAccount}) => {
             ยืนยันรหัสผ่าน
           </label>
           <input
-            type="c-password"
+            type="password"
             id="c-password"
             name="c-password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             className="border border-gray-300 rounded-md px-3 py-2 w-full"
           />
         </div>
@@ -65,4 +81,4 @@ const SingIn = ({setHaveAccount}) => {
   );
 };
 
-export default SingIn;
+export default SignUp;
