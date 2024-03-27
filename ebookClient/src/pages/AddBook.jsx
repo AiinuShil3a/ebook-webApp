@@ -6,32 +6,36 @@ const AddBook = () => {
     type_book: "",
     name_book: "",
     author: "",
-    image: "",
     publisher_url: "",
     publisher: "",
+    image: null,
   });
 
-  const { type_book, name_book, author, image, publisher_url, publisher } =
+  const { type_book, name_book, author, publisher_url, publisher, image } =
     formData;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const onImageChange = (e) => {
+    setFormData({ ...formData, image: e.target.files[0] });
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
 
+    const form = new FormData();
+    form.append("type_book", type_book);
+    form.append("name_book", name_book);
+    form.append("author", author);
+    form.append("publisher_url", publisher_url);
+    form.append("publisher", publisher);
+    form.append("image", image);
+
     try {
-      const res = await axios.post("http://localhost:3000/book", formData);
+      const res = await axios.post("http://localhost:3000/book", form);
       console.log(res.data);
-      setFormData({
-        type_book: "",
-        name_book: "",
-        author: "",
-        image: "",
-        publisher_url: "",
-        publisher: "",
-        userPost: "",
-      });
     } catch (err) {
       console.error(err.response.data);
     }
@@ -143,6 +147,7 @@ const AddBook = () => {
             type="file"
             id="image"
             name="image"
+            onChange={onImageChange}
             className="block w-full p-3 border border-Gray rounded-lg focus:outline-none focus:border-Blue"
           />
         </div>
