@@ -31,10 +31,10 @@ const AuthContextProvider = ({children}) => {
       }, []);
 const login = async (username , password) => {
     try {
-        const response = await axios.post("http://localhost:3000/users/login", {username , password})
-        //   const response = await axios.post("http://localhost:3000/jwt")
-                     
-        const {token , ...userData} = response.data
+      const response = await axios.post("http://localhost:3000/users/login", { username, password });
+      const getToken = await axios.post("http://localhost:3000/jwt", { username: response.data.username });
+        const userData = response.data
+        const token = getToken.data.token
         setIsAuthenticated(true)
         setUser(userData)
         document.cookie = `token=${token}; path=/`
