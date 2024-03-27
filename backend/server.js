@@ -17,6 +17,7 @@ app.use(express.urlencoded({ extended: false }));
 
 //connect mongoDB
 const MONGODB_URL = process.env.MONGODB_URL;
+console.log(process.env.MONGODB_URL);
 mongoose.connect(MONGODB_URL);
 
 app.use("/users", userRouter);

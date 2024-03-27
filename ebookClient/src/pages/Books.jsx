@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { FaAngleRight } from 'react-icons/fa';
 import axios from "axios";
 import BookCard from "../component/BookCard";
 
-const Homepage = () => {
+const Books = () => {
   const [books, setBooks] = useState([]);
   const [filterType, setFilterType] = useState("");
+  const [startIndex, setStartIndex] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1); // New state for current page
+  const cardsPerPage = 6;
 
   useEffect(() => {
     axios
@@ -20,15 +22,28 @@ const Homepage = () => {
 
   const handleFilterChange = (type) => {
     setFilterType(type);
-  };
-  const handleToAllbooks = (type) => {
-    window.location.href = "/books";
+    setStartIndex(0);
+    setCurrentPage(1); // Reset current page when filter changes
   };
 
   const filteredBooks = filterType
     ? books.filter((book) => book.type_book === filterType)
     : books;
-  const limitedBooks = filteredBooks.slice(0, 5);
+
+  const totalPages = Math.ceil(filteredBooks.length / cardsPerPage); // Calculate total pages
+
+  const handleNext = () => {
+    setStartIndex((prevIndex) => prevIndex + cardsPerPage);
+    setCurrentPage((prevPage) => prevPage + 1); // Increment current page
+  };
+
+  const handleBack = () => {
+    setStartIndex((prevIndex) => Math.max(0, prevIndex - cardsPerPage));
+    setCurrentPage((prevPage) => prevPage - 1); // Decrement current page
+  };
+
+  const limitedBooks = filteredBooks.slice(startIndex, startIndex + cardsPerPage);
+
   return (
     <div>
       <img
@@ -54,18 +69,25 @@ const Homepage = () => {
           {limitedBooks.map((book, index) => (
             <BookCard key={index} book={book} />
           ))}
-          {limitedBooks.length < filteredBooks.length && (
-            <div className="flex justify-center mt-4">
-              <button onClick={handleToAllbooks} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-                <h1 className="text-[5rem]"> > </h1>
-                ดูรายการหนังสือทั้งหมด
-              </button>
-            </div>
+        </div>
+        <div className="flex justify-center mt-4">
+          {startIndex > 0 && (
+            <button onClick={handleBack} className="px-4 py-2 border border-gray-300 rounded">
+              Back
+            </button>
           )}
+          {startIndex + cardsPerPage < filteredBooks.length && (
+            <button onClick={handleNext} className="px-4 py-2 border border-gray-300 rounded">
+              Next
+            </button>
+          )}
+        </div>
+        <div className="text-center mt-2">
+          Page {currentPage} of {totalPages}
         </div>
       </div>
     </div>
   );
 };
 
-export default Homepage;
+export default Books;
