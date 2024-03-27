@@ -25,10 +25,10 @@ const BookSchema = new Schema({
     type: String,
     required: true,
   },
-  isbn: {
-    type: Number,
+  userPost: {
+    type:Schema.Types.ObjectId, ref:"User",
     required: true,
-  },
+  }
 });
 const BookModel = model("Book", BookSchema);
 module.exports = BookModel;
