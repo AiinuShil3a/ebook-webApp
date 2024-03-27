@@ -3,6 +3,7 @@ const cors = require("cors");
 const router = express.Router();
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const userRouter = require("./Routers/user.router")
 
 dotenv.config();
 
@@ -17,10 +18,12 @@ app.use(express.urlencoded({ extended: false }));
 const MONGODB_URL = process.env.MONGODB_URL;
 mongoose.connect(MONGODB_URL);
 
+app.use("/users", userRouter);
+
 app.get("/", (req, res) => {
-  res.send("<h1> Welcome to H2O Project</h1>");
+  res.send("<h1> Welcome to Ebook Project</h1>");
 });
-//test
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log("Server is running on http://localhost:" + PORT);
